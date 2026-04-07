@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python do Zero — Roadmap</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0f;
+      color: #e2e2e8;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      padding: 32px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 720px; margin: 0 auto; }
+
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #22c55e;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.1;
+      background: linear-gradient(90deg, #22c55e, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-meta {
+      color: #6b6b7b;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .progress-bar {
+      margin-top: 20px;
+      display: flex;
+      gap: 3px;
+      height: 4px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-segment {
+      opacity: 0.7;
+      border-radius: 2px;
+    }
+
+    .timeline { margin-top: 40px; }
+
+    .module-wrap {
+      position: relative;
+      padding-left: 36px;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      border: 2px solid;
+    }
+
+    .module-card {
+      background: #0f0f17;
+      border: 1px solid #1a1a2a;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .module-card.open {
+      background: #12121a;
+    }
+
+    .module-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .module-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .module-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .module-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .module-count {
+      font-size: 12px;
+      color: #6b6b7b;
+    }
+
+    .module-arrow {
+      font-size: 18px;
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .module-card.open .module-arrow {
+      transform: rotate(90deg);
+    }
+
+    .video-list {
+      margin-top: 16px;
+      display: none;
+    }
+
+    .module-card.open .video-list {
+      display: block;
+    }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid #1a1a2a;
+    }
+
+    .video-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .video-number.normal {
+      background: #1a1a2a;
+      color: #6b6b7b;
+    }
+
+    .video-title {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .video-title.normal {
+      color: #c8c8d0;
+    }
+
+    .video-title.project {
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 12px;
+      color: #3a3a4a;
+      border-top: 1px solid #1a1a2a;
+      padding-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 24px; }
+      .module-title { font-size: 15px; }
+      .video-title { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header-label">Série Completa</div>
+  <h1>Python do Zero</h1>
+  <p class="header-meta">40 vídeos · 5 projetos práticos</p>
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="container timeline" id="timeline"></div>
+
+<div class="container footer">feito com ❤️</div>
+
+<script>
+const modules = [
+  {
+    id: 1, title: "Primeiros Passos", color: "#22c55e", icon: "🌱",
+    videos: [
+      { n: 1, title: "Por que aprender Python em 2026?" },
+      { n: 2, title: "Instalando Python + VS Code" },
+      { n: 3, title: "print(), input() e variáveis" },
+      { n: 4, title: "Tipos de dados: int, float, str, bool" },
+      { n: 5, title: "Operadores e expressões" },
+      { n: 6, title: "Strings: fatiamento, f-strings e métodos" },
+    ],
+  },
+  {
+    id: 2, title: "Controle de Fluxo", color: "#3b82f6", icon: "🔀",
+    videos: [
+      { n: 7, title: "if, elif, else" },
+      { n: 8, title: "while: loops que repetem" },
+      { n: 9, title: "for: o loop mais usado" },
+      { n: 10, title: "PROJETO: Jogo de adivinhação", project: true },
+    ],
+  },
+  {
+    id: 3, title: "Estruturas de Dados", color: "#f59e0b", icon: "📦",
+    videos: [
+      { n: 11, title: "Listas" },
+      { n: 12, title: "List comprehension" },
+      { n: 13, title: "Tuplas e quando usar" },
+      { n: 14, title: "Dicionários: chave-valor" },
+      { n: 15, title: "Sets e comparação de estruturas" },
+      { n: 16, title: "PROJETO: Sistema de cadastro", project: true },
+    ],
+  },
+  {
+    id: 4, title: "Funções", color: "#8b5cf6", icon: "⚡",
+    videos: [
+      { n: 17, title: "def, parâmetros e return" },
+      { n: 18, title: "Escopo: local vs global" },
+      { n: 19, title: "Args, kwargs e valores padrão" },
+      { n: 20, title: "Lambda, map, filter" },
+    ],
+  },
+  {
+    id: 5, title: "Arquivos e Erros", color: "#ef4444", icon: "📂",
+    videos: [
+      { n: 21, title: "Leitura e escrita de arquivos" },
+      { n: 22, title: "try/except: tratando erros" },
+      { n: 23, title: "Módulos e imports" },
+      { n: 24, title: "PROJETO: Organizador de arquivos", project: true },
+    ],
+  },
+  {
+    id: 6, title: "Orientação a Objetos", color: "#ec4899", icon: "🧬",
+    videos: [
+      { n: 25, title: "Classes e objetos" },
+      { n: 26, title: "__init__, self e atributos" },
+      { n: 27, title: "Métodos e encapsulamento" },
+      { n: 28, title: "Herança e polimorfismo" },
+      { n: 29, title: "Métodos mágicos" },
+      { n: 30, title: "PROJETO: Sistema bancário POO", project: true },
+    ],
+  },
+  {
+    id: 7, title: "Python Intermediário", color: "#06b6d4", icon: "🚀",
+    videos: [
+      { n: 31, title: "Decorators" },
+      { n: 32, title: "Generators e iteradores" },
+      { n: 33, title: "JSON e APIs" },
+      { n: 34, title: "Virtual environments e pip" },
+      { n: 35, title: "Testes unitários com pytest" },
+      { n: 36, title: "PROJETO: App de clima via API", project: true },
+    ],
+  },
+  {
+    id: 8, title: "Projetos Reais", color: "#f97316", icon: "🏆",
+    videos: [
+      { n: 37, title: "Web scraping com BeautifulSoup" },
+      { n: 38, title: "Bot que envia e-mails" },
+      { n: 39, title: "PROJETO FINAL: Dashboard Streamlit", project: true },
+      { n: 40, title: "O que estudar depois de Python?" },
+    ],
+  },
+];
+
+
+const bar = document.getElementById("progressBar");
+modules.forEach(m => {
+  const seg = document.createElement("div");
+  seg.className = "progress-segment";
+  seg.style.flex = m.videos.length;
+  seg.style.background = m.color;
+  bar.appendChild(seg);
+});
+
+
+const timeline = document.getElementById("timeline");
+
+modules.forEach((mod, i) => {
+  const wrap = document.createElement("div");
+  wrap.className = "module-wrap";
+
+ 
+  if (i < modules.length - 1) {
+    const line = document.createElement("div");
+    line.className = "timeline-line";
+    line.style.background = `linear-gradient(to bottom, ${mod.color}44, ${modules[i + 1].color}44)`;
+    wrap.appendChild(line);
+  }
+
+
+  const dot = document.createElement("div");
+  dot.className = "timeline-dot";
+  dot.style.background = mod.color + "22";
+  dot.style.borderColor = mod.color;
+  dot.textContent = mod.icon;
+  wrap.appendChild(dot);
+
+  // Card
+  const card = document.createElement("div");
+  card.className = "module-card";
+
+  card.innerHTML = `
+    <div class="module-header">
+      <div>
+        <div class="module-label" style="color:${mod.color}">Módulo ${mod.id}</div>
+        <div class="module-title">${mod.title}</div>
+      </div>
+      <div class="module-right">
+        <span class="module-count">${mod.videos.length} vídeos</span>
+        <span class="module-arrow" style="color:${mod.color}">›</span>
+      </div>
+    </div>
+    <div class="video-list">
+      ${mod.videos.map(v => `
+        <div class="video-item">
+          <span class="video-number ${v.project ? '' : 'normal'}" style="${v.project ? `background:${mod.color};color:#0a0a0f` : ''}">${v.n}</span>
+          <span class="video-title ${v.project ? 'project' : 'normal'}" style="${v.project ? `color:${mod.color}` : ''}">${v.title}</span>
+
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  card.addEventListener("click", () => {
+    const wasOpen = card.classList.contains("open");
+    document.querySelectorAll(".module-card.open").forEach(c => {
+      c.classList.remove("open");
+      c.style.borderColor = "#1a1a2a";
+    });
+    if (!wasOpen) {
+      card.classList.add("open");
+      card.style.borderColor = mod.color + "55";
+    }
+  });
+
+  wrap.appendChild(card);
+  timeline.appendChild(wrap);
+});
+</script>
+</body>
+</html>
